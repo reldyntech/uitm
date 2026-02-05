@@ -70,7 +70,7 @@ class DiscoverScreen extends StatelessWidget {
                   left: 0,
                   right: 0,
                   bottom: 0,
-                  child: _buildCardsGrid(),
+                  child: _buildCardsGrid(context),
                 ),
               ],
             );
@@ -193,7 +193,7 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCardsGrid() {
+  Widget _buildCardsGrid(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: GridView.count(
@@ -204,7 +204,7 @@ class DiscoverScreen extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 20),
         children: [
           _buildNestCard(),
-          _buildUitmCard(),
+          _buildUitmCard(context),
           _buildTermDepositCard(),
           _buildCard(
             title: 'Microtakaful',
@@ -246,10 +246,10 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildUitmCard() {
+  Widget _buildUitmCard(BuildContext context) {
     return InkWell(
       onTap: () {
-        // Handle Uitm card tap
+        Navigator.pushNamed(context, '/dashboard');
       },
       borderRadius: BorderRadius.circular(16),
       child: ClipRRect(
