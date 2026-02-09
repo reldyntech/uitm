@@ -72,9 +72,8 @@ class ResultsScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Column(
+              child: Stack(
                 children: [
-                  // Decorative elements
                   Positioned(
                     top: -20,
                     right: -20,
@@ -87,7 +86,9 @@ class ResultsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Text(
+                  Column(
+                    children: [
+                      const Text(
                     'CGPA',
                     style: TextStyle(
                       color: Colors.white70,
@@ -131,6 +132,8 @@ class ResultsScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                    ],
                   ),
                 ],
               ),

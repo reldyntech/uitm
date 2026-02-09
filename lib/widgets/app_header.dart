@@ -6,6 +6,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onClose;
   final bool showBack;
   final bool showClose;
+  final Widget? trailing;
 
   const AppHeader({
     super.key,
@@ -14,6 +15,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     this.onClose,
     this.showBack = true,
     this.showClose = true,
+    this.trailing,
   });
 
   @override
@@ -45,6 +47,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       ),
       centerTitle: true,
       actions: [
+        if (trailing != null) trailing!,
         if (showClose)
           Container(
             margin: const EdgeInsets.all(8),
@@ -56,7 +59,6 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               icon: const Icon(Icons.close, color: Color(0xFF6A1B9A), size: 20),
               onPressed: onClose ??
                   () {
-                    // Navigate back to Discover screen
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   },
             ),

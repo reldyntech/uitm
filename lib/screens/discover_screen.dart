@@ -12,14 +12,14 @@ class DiscoverScreen extends StatelessWidget {
           builder: (context, constraints) {
             final availableHeight = constraints.maxHeight;
             final rectangleHeight = availableHeight * 0.5;
-            
+
             return Stack(
               children: [
                 // Superhero Illustration - behind the rectangle, fills height from Discover section to rectangle
                 Positioned(
                   top: 120, // Approximate position after header and discover text
                   right: 20,
-                  bottom: availableHeight * 0.5 - 60, // Until rectangle starts
+                  bottom: rectangleHeight - 60, // Until rectangle starts
                   child: Image.asset(
                     'assets/images/superhero.png',
                     fit: BoxFit.contain,
@@ -34,7 +34,7 @@ class DiscoverScreen extends StatelessWidget {
                 ),
                 // Background rectangle covering bottom half of the screen, moved up (in front of superhero)
                 Positioned(
-                  top: availableHeight * 0.5 - 60, // Position at middle minus 60px to move up
+                  top: rectangleHeight - 60, // Position at middle minus 60px to move up
                   left: 0,
                   right: 0,
                   bottom: -60, // Extend 60px below bottom to maintain coverage
@@ -58,7 +58,7 @@ class DiscoverScreen extends StatelessWidget {
                 Column(
                   children: [
                     // Top Header
-                    _buildHeader(),
+                    _buildHeader(context),
                     const SizedBox(height: 24),
                     // Discover Section - Page Title
                     _buildDiscoverSection(),
@@ -81,11 +81,26 @@ class DiscoverScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Row(
         children: [
+          // Back Button
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF5F5F5),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Color(0xFF6A1B9A), size: 20),
+              onPressed: () => Navigator.of(context).pop(),
+              padding: EdgeInsets.zero,
+            ),
+          ),
+          const SizedBox(width: 12),
           // Profile Picture
           Container(
             width: 50,
