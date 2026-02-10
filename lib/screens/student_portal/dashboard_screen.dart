@@ -47,7 +47,7 @@ class DashboardScreenBody extends StatelessWidget {
                 children: [
                   DashboardScreen._buildGreetingHeader(s),
                   const SizedBox(height: 24),
-                  DashboardScreen._buildOutstandingFeesAlert(context, s),
+                  DashboardScreen._buildAnnouncementsSection(context, s),
                   const SizedBox(height: 24),
                   DashboardScreen._buildQuickAccessCards(context, s),
                 ],
@@ -56,6 +56,223 @@ class DashboardScreenBody extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+}
+
+class _AnnouncementsCarousel extends StatefulWidget {
+  const _AnnouncementsCarousel({required this.s, required this.items});
+
+  final PortalStrings s;
+  final List<(String, String, String, String)> items;
+
+  @override
+  State<_AnnouncementsCarousel> createState() => _AnnouncementsCarouselState();
+}
+
+class _AnnouncementsCarouselState extends State<_AnnouncementsCarousel> {
+  late final PageController _pageController;
+  int _currentPage = 0;
+
+  static const List<Color> _bannerColors = [
+    Color(0xFFE8F5E9), // light green
+    Color(0xFFE3F2FD), // light blue
+    Color(0xFFF3E5F5), // light purple
+  ];
+
+  static const List<Color> _bannerTagColors = [
+    Color(0xFF2E7D32),
+    Color(0xFF1565C0),
+    Color(0xFF7B1FA2),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(viewportFraction: 0.88);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final s = widget.s;
+    final items = widget.items;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF6A1B9A).withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.campaign_rounded,
+                      color: Color(0xFF6A1B9A),
+                      size: 22,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Text(
+                    s.announcements,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF424242),
+                    ),
+                  ),
+                ],
+              ),
+              Text(
+                s.viewAll,
+                style: const TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF6A1B9A),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 180,
+          child: PageView.builder(
+            controller: _pageController,
+            itemCount: items.length,
+            onPageChanged: (i) => setState(() => _currentPage = i),
+            itemBuilder: (context, index) {
+              final (headline, body, date, tag) = items[index];
+              final bgColor = _bannerColors[index % _bannerColors.length];
+              final tagColor = _bannerTagColors[index % _bannerTagColors.length];
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: bgColor,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: tagColor.withOpacity(0.3),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.06),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  padding: const EdgeInsets.all(18),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (tag.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: tagColor,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    tag,
+                                    style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.white,
+                                      letterSpacing: 0.3,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            Text(
+                              headline,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF424242),
+                                height: 1.25,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              body,
+                              style: const TextStyle(
+                                fontSize: 13,
+                                color: Color(0xFF616161),
+                                height: 1.35,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              date,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: Color(0xFF9E9E9E),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Icon(
+                        Icons.campaign_rounded,
+                        color: tagColor.withOpacity(0.6),
+                        size: 40,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8, top: 14),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(items.length, (i) {
+              final selected = _currentPage == i;
+              final tagColor = _bannerTagColors[i % _bannerTagColors.length];
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4),
+                width: selected ? 20 : 8,
+                height: 8,
+                decoration: BoxDecoration(
+                  color: selected ? tagColor : const Color(0xFFE0E0E0),
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              );
+            }),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -183,163 +400,35 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  static Widget _buildOutstandingFeesAlert(BuildContext context, PortalStrings s) {
-    return Stack(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                const Color(0xFFFF6B9D),
-                const Color(0xFFFF8FA3),
-                const Color(0xFFFFB3BA),
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(28),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFFFF6B9D).withOpacity(0.4),
-                blurRadius: 25,
-                offset: const Offset(0, 10),
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.3),
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.warning_amber_rounded,
-                      color: Color(0xFFFFD700),
-                      size: 24,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            s.outstandingFees,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'You have outstanding fees to pay. Please pay as soon as possible.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Colors.white,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 16,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.25),
-                      borderRadius: BorderRadius.circular(18),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: const Text(
-                      'RM 2,450.00',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        StudentPortalScope.of(context)?.switchToTab(1);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFFD700),
-                        foregroundColor: const Color(0xFF424242),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24,
-                          vertical: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        elevation: 4,
-                      ),
-                      child: const Text(
-                        'PAY NOW',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        // Decorative person icon (top right)
-        Positioned(
-          top: -30,
-          right: -30,
-          child: Container(
-            width: 120,
-            height: 120,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.25),
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.person_outline,
-              color: Colors.white,
-              size: 70,
-            ),
-          ),
-        ),
-        // Decorative blob shape (bottom right)
-        Positioned(
-          bottom: -15,
-          right: -15,
-          child: Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              shape: BoxShape.circle,
-            ),
-          ),
-        ),
-      ],
-    );
+  static Widget _buildAnnouncementsSection(BuildContext context, PortalStrings s) {
+    // (headline, body, date, tag)
+    final items = [
+      (
+        s.isMalay ? 'Pendaftaran kursus semester baru' : 'New semester course registration',
+        s.isMalay
+            ? 'Dibuka sehingga 15 Mac. Daftar sekarang melalui portal.'
+            : 'Open until 15 March. Register now via the portal.',
+        '4 Feb 2025',
+        s.bannerTagNew,
+      ),
+      (
+        s.isMalay ? 'Bayar yuran dengan mudah' : 'Pay fees easily',
+        s.isMalay
+            ? 'Yuran pengajian boleh dibayar melalui portal atau Be MyUiTM.'
+            : 'Tuition fees can be paid via the portal or Be MyUiTM.',
+        '1 Feb 2025',
+        s.bannerTagRecommended,
+      ),
+      (
+        s.isMalay ? 'Jadual peperiksaan akhir' : 'Final exam timetable',
+        s.isMalay
+            ? 'Jadual peperiksaan akhir semester telah dikeluarkan.'
+            : 'Final semester exam timetable has been released.',
+        '28 Jan 2025',
+        s.bannerTagImportant,
+      ),
+    ];
+    return _AnnouncementsCarousel(s: s, items: items);
   }
 
   static Widget _buildQuickAccessCards(BuildContext context, PortalStrings s) {
@@ -385,7 +474,7 @@ class DashboardScreen extends StatelessWidget {
               icon: Icons.account_balance_wallet,
               color: const Color(0xFFFFD54F),
               onTap: () {
-                StudentPortalScope.of(context)?.switchToTab(3);
+                StudentPortalScope.of(context)?.switchToTab(2);
               },
             ),
             DashboardScreen._buildQuickAccessCard(

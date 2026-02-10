@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_locale.dart';
 import '../../l10n/portal_strings.dart';
 import 'fees_screen.dart';
-import 'student_portal_shell.dart';
+import 'payment_history_screen.dart';
 
 class FinancialServicesScreen extends StatelessWidget {
   const FinancialServicesScreen({super.key});
@@ -185,7 +185,12 @@ class FinancialServicesScreen extends StatelessWidget {
             label: s.paymentHistory,
             color: const Color(0xFF4CAF50),
             onTap: () {
-              StudentPortalScope.of(context)?.switchToTab(3);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const PaymentHistoryScreen(),
+                ),
+              );
             },
           ),
         ),
@@ -204,7 +209,7 @@ class FinancialServicesScreen extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -230,35 +235,37 @@ class FinancialServicesScreen extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              width: 48,
-              height: 48,
+              width: 40,
+              height: 40,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   colors: [color, color.withOpacity(0.8)],
                 ),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: color.withOpacity(0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
-              child: Icon(icon, color: Colors.white, size: 24),
+              child: Icon(icon, color: Colors.white, size: 20),
             ),
-            const SizedBox(width: 16),
+            const SizedBox(width: 12),
             Expanded(
               child: Text(
                 label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: color,
                 ),
               ),
             ),
-            Icon(Icons.arrow_forward_ios, color: color, size: 18),
+            Icon(Icons.arrow_forward_ios, color: color, size: 16),
           ],
         ),
       ),

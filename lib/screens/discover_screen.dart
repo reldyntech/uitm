@@ -264,7 +264,7 @@ class DiscoverScreen extends StatelessWidget {
   Widget _buildUitmCard(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, '/dashboard');
+        Navigator.pushNamed(context, '/be-uitm-link');
       },
       borderRadius: BorderRadius.circular(16),
       child: ClipRRect(

@@ -71,7 +71,12 @@ class _StudentPortalShellState extends State<StudentPortalShell> {
                 ],
               ),
             ),
-            onClose: () => Navigator.of(context).pop(),
+            onClose: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                '/',
+                (route) => false,
+              );
+            },
           ),
           body: bodies[_currentIndex],
           bottomNavigationBar: Container(
@@ -91,10 +96,10 @@ class _StudentPortalShellState extends State<StudentPortalShell> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    _navItem(0, Icons.home_rounded, s.tabHome),
-                    _navItem(1, Icons.account_balance_wallet_rounded, s.tabFinancial),
-                    _navItem(2, Icons.receipt_long_rounded, s.tabTransaction),
-                    _navItem(3, Icons.person_rounded, s.tabProfile),
+                    Expanded(child: _navItem(0, Icons.home_rounded, s.tabHome)),
+                    Expanded(child: _navItem(1, Icons.account_balance_wallet_rounded, s.tabFinancial)),
+                    Expanded(child: _navItem(2, Icons.receipt_long_rounded, s.tabTransaction)),
+                    Expanded(child: _navItem(3, Icons.person_rounded, s.tabProfile)),
                   ],
                 ),
               ),
@@ -113,24 +118,28 @@ class _StudentPortalShellState extends State<StudentPortalShell> {
       borderRadius: BorderRadius.circular(16),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
         decoration: BoxDecoration(
           color: selected ? const Color(0xFF6A1B9A).withOpacity(0.12) : Colors.transparent,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               icon,
-              size: 26,
+              size: 24,
               color: selected ? const Color(0xFF6A1B9A) : Colors.grey,
             ),
             const SizedBox(height: 4),
             Text(
               label,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                 color: selected ? const Color(0xFF6A1B9A) : Colors.grey,
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_locale.dart';
 import '../../l10n/portal_strings.dart';
+import 'change_password_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -56,6 +57,21 @@ class ProfileScreen extends StatelessWidget {
                   icon: Icons.notifications_outlined,
                   label: 'Notifications',
                   value: 'On',
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ChangePasswordScreen(),
+                      ),
+                    );
+                  },
+                  child: _ProfileTile(
+                    icon: Icons.lock_outline,
+                    label: s.changePassword,
+                    value: '••••••••',
+                  ),
                 ),
               ]),
               const SizedBox(height: 32),

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../l10n/app_locale.dart';
 import '../../l10n/portal_strings.dart';
-import '../student_portal/student_portal_shell.dart';
 
-class UiTMPlusSignInScreen extends StatefulWidget {
-  const UiTMPlusSignInScreen({super.key});
+class MyUiTMPlusSignInScreen extends StatefulWidget {
+  const MyUiTMPlusSignInScreen({super.key});
 
   @override
-  State<UiTMPlusSignInScreen> createState() => _UiTMPlusSignInScreenState();
+  State<MyUiTMPlusSignInScreen> createState() => _MyUiTMPlusSignInScreenState();
 }
 
-class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
+class _MyUiTMPlusSignInScreenState extends State<MyUiTMPlusSignInScreen>
     with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _studentIdController = TextEditingController();
@@ -80,8 +79,8 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
     await Future.delayed(const Duration(milliseconds: 800));
     if (!mounted) return;
     setState(() => _isLoading = false);
-    Navigator.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const StudentPortalShell()),
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      '/account-activation',
       (route) => false,
     );
   }
@@ -92,24 +91,13 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
       listenable: AppLocale.instance,
       builder: (context, _) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  const Color(0xFF1A237E),
-                  const Color(0xFF283593),
-                  const Color(0xFF3949AB),
-                  const Color(0xFF6A1B9A),
-                ],
-                stops: const [0.0, 0.35, 0.7, 1.0],
-              ),
-            ),
+            color: Colors.white,
             child: SafeArea(
               child: Stack(
                 children: [
-                  // Decorative orbs
+                  // Subtle decorative orbs (white background)
                   Positioned(
                     top: -80,
                     right: -80,
@@ -118,7 +106,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
                       height: 200,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.08),
+                        color: const Color(0xFF6A1B9A).withOpacity(0.06),
                       ),
                     ),
                   ),
@@ -130,7 +118,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
                       height: 150,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.06),
+                        color: const Color(0xFF6A1B9A).withOpacity(0.04),
                       ),
                     ),
                   ),
@@ -170,23 +158,11 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
                           scale: _logoScale,
                           child: FadeTransition(
                             opacity: _logoOpacity,
-                            child: Container(
+                            child: SizedBox(
                               width: 250,
                               height: 100,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(24),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withOpacity(0.2),
-                                    blurRadius: 24,
-                                    offset: const Offset(0, 12),
-                                  ),
-                                ],
-                              ),
-                              padding: const EdgeInsets.all(1),
                               child: Image.asset(
-                                'assets/images/LogoUiTM_with_white_border.png',
+                                'assets/images/LogoUiTM.png',
                                 fit: BoxFit.contain,
                               ),
                             ),
@@ -200,7 +176,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
                             style: const TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                              color: Color(0xFF424242),
                               letterSpacing: -1,
                             ),
                           ),
@@ -210,9 +186,9 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
                           index: 3,
                           child: Text(
                             _s.studentPortal,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
-                              color: Colors.white.withOpacity(0.9),
+                              color: Color(0xFF757575),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -226,11 +202,15 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(28),
+                              border: Border.all(
+                                color: const Color(0xFFE8E8E8),
+                                width: 1,
+                              ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.15),
-                                  blurRadius: 30,
-                                  offset: const Offset(0, 10),
+                                  color: Colors.black.withOpacity(0.08),
+                                  blurRadius: 24,
+                                  offset: const Offset(0, 8),
                                 ),
                               ],
                             ),
@@ -356,7 +336,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
 
   Widget _roundButton({required IconData icon, required VoidCallback onTap}) {
     return Material(
-      color: Colors.white.withOpacity(0.2),
+      color: const Color(0xFFF5F5F5),
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
         onTap: onTap,
@@ -365,7 +345,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
           width: 48,
           height: 48,
           alignment: Alignment.center,
-          child: Icon(icon, color: Colors.white, size: 22),
+          child: Icon(icon, color: const Color(0xFF424242), size: 22),
         ),
       ),
     );
@@ -373,7 +353,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
 
   Widget _langChip({required String label, required bool isSelected}) {
     return Material(
-      color: isSelected ? Colors.white : Colors.white.withOpacity(0.2),
+      color: isSelected ? const Color(0xFF6A1B9A) : const Color(0xFFF5F5F5),
       borderRadius: BorderRadius.circular(20),
       child: InkWell(
         onTap: () => AppLocale.instance.setMalay(label == 'BM'),
@@ -383,7 +363,7 @@ class _UiTMPlusSignInScreenState extends State<UiTMPlusSignInScreen>
           child: Text(
             label,
             style: TextStyle(
-              color: isSelected ? const Color(0xFF1A237E) : Colors.white,
+              color: isSelected ? Colors.white : const Color(0xFF757575),
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),

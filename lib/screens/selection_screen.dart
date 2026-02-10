@@ -50,7 +50,7 @@ class SelectionScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     const Text(
-                      'UiTM Proof of Concept',
+                      'MyUiTM Proof of Concept',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -59,12 +59,12 @@ class SelectionScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 60),
-                    // UiTM+ Button
+                    // MyUiTM Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/uitm-plus-signin');
+                          Navigator.pushNamed(context, '/myuitm-plus-signin');
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -81,7 +81,7 @@ class SelectionScreen extends StatelessWidget {
                           shadowColor: const Color(0xFF6A1B9A).withOpacity(0.3),
                         ),
                         child: const Text(
-                          'UiTM+',
+                          'MyUiTM',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class SelectionScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Be UiTM Button
+                    // Be MyUiTM Button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -109,7 +109,7 @@ class SelectionScreen extends StatelessWidget {
                           shadowColor: const Color(0xFF6A1B9A).withOpacity(0.4),
                         ),
                         child: const Text(
-                          'Be UiTM',
+                          'Be MyUiTM',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,

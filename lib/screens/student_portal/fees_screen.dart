@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../l10n/app_locale.dart';
+import '../../l10n/portal_strings.dart';
 import '../../widgets/app_header.dart';
 
 class FeesScreen extends StatelessWidget {
@@ -6,39 +8,45 @@ class FeesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F5FF),
-      appBar: const AppHeader(title: 'Outstanding Fees'),
-      body: Stack(
-        children: [
-          // Decorative background elements
-          Positioned(
-            top: -50,
-            right: -50,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFE5F5).withOpacity(0.4),
-                shape: BoxShape.circle,
+    return ListenableBuilder(
+      listenable: AppLocale.instance,
+      builder: (context, _) {
+        final s = PortalStrings(isMalay: AppLocale.instance.isMalay);
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8F5FF),
+          appBar: AppHeader(title: s.outstandingFees),
+          body: Stack(
+            children: [
+              // Decorative background elements
+              Positioned(
+                top: -50,
+                right: -50,
+                child: Container(
+                  width: 200,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFFFE5F5).withOpacity(0.4),
+                    shape: BoxShape.circle,
+                  ),
+                ),
               ),
-            ),
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Outstanding Summary
+                    _buildOutstandingSummary(),
+                    const SizedBox(height: 24),
+                    // Fee Breakdown
+                    _buildFeeBreakdown(context, s),
+                  ],
+                ),
+              ),
+            ],
           ),
-          SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Outstanding Summary
-                _buildOutstandingSummary(),
-                const SizedBox(height: 24),
-                // Fee Breakdown
-                _buildFeeBreakdown(context),
-              ],
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -137,7 +145,7 @@ class FeesScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeeBreakdown(BuildContext context) {
+  Widget _buildFeeBreakdown(BuildContext context, PortalStrings s) {
     final fees = [
       {'name': 'Tuition Fee', 'amount': 1500.00},
       {'name': 'Registration Fee', 'amount': 300.00},
@@ -182,9 +190,9 @@ class FeesScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
             ),
-            child: const Text(
-              'Pay Now',
-              style: TextStyle(
+            child: Text(
+              s.payNow,
+              style: const TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
               ),

@@ -64,11 +64,11 @@ class TransactionStatementScreen extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _filterChip(label: '2024'),
+                child: _filterChip(label: '2025'),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: _filterChip(label: '2023'),
+                child: _filterChip(label: '2024'),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -112,34 +112,24 @@ class TransactionStatementScreen extends StatelessWidget {
   Widget _buildTransactionList(PortalStrings s) {
     final transactions = [
       _TransactionItem(
-        date: '10 Dec 2024',
+        date: '10 Dec 2025',
         description: 'Tuition Fee - Semester 1',
         amount: -2450.00,
-        balance: 1250.00,
       ),
       _TransactionItem(
-        date: '05 Dec 2024',
+        date: '05 Dec 2025',
         description: 'Credit - PTPTN',
         amount: 3000.00,
-        balance: 3700.00,
       ),
       _TransactionItem(
-        date: '01 Dec 2024',
+        date: '01 Dec 2025',
         description: 'Library Fee',
         amount: -50.00,
-        balance: 700.00,
       ),
       _TransactionItem(
-        date: '28 Nov 2024',
+        date: '28 Nov 2025',
         description: 'Registration Fee',
         amount: -250.00,
-        balance: 750.00,
-      ),
-      _TransactionItem(
-        date: '15 Nov 2024',
-        description: 'Opening Balance',
-        amount: 1000.00,
-        balance: 1000.00,
       ),
     ];
 
@@ -184,6 +174,7 @@ class TransactionStatementScreen extends StatelessWidget {
                   ),
                 ),
                 Expanded(
+                  flex: 2,
                   child: Text(
                     s.amount,
                     style: const TextStyle(
@@ -191,16 +182,7 @@ class TransactionStatementScreen extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF757575),
                     ),
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    s.balance,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF757575),
-                    ),
+                    textAlign: TextAlign.right,
                   ),
                 ),
               ],
@@ -233,28 +215,20 @@ class TransactionStatementScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Text(
-                      '${t.amount >= 0 ? "RM " : "-RM "}${t.amount.abs().toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: t.amount >= 0
-                            ? const Color(0xFF2E7D32)
-                            : const Color(0xFFC62828),
-                      ),
+                Expanded(
+                  flex: 2,
+                  child: Text(
+                    '${t.amount >= 0 ? "RM " : "-RM "}${t.amount.abs().toStringAsFixed(2)}',
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: t.amount >= 0
+                          ? const Color(0xFF2E7D32)
+                          : const Color(0xFFC62828),
                     ),
+                    textAlign: TextAlign.right,
                   ),
-                  Expanded(
-                    child: Text(
-                      'RM ${t.balance.toStringAsFixed(2)}',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF424242),
-                      ),
-                    ),
-                  ),
+                ),
                 ],
               ),
             ),
@@ -269,12 +243,10 @@ class _TransactionItem {
   final String date;
   final String description;
   final double amount;
-  final double balance;
 
   _TransactionItem({
     required this.date,
     required this.description,
     required this.amount,
-    required this.balance,
   });
 }
